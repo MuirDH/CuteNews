@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
     private static final String URL_CONTENT = "&show-fields=thumbnail&show-tags=contributor";
 
     // API key which is needed to access content from the API
-    private static final String URL_KEY = "&api-key=test";
+    private static final String URL_KEY = "test";
 
     // Constant value for the news loader ID
     private static int NEWS_LOADER_ID = 1;
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("order-by", order);
-        uriBuilder.appendQueryParameter("", URL_KEY);
+        uriBuilder.appendQueryParameter("api-key", URL_KEY);
 
         return new NewsLoader(this, uriBuilder.toString());
 
