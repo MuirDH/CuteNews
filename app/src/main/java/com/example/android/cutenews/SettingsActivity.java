@@ -32,7 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
              * Use the findPreference() method to get the Preference object and setup the preference
              * using a helper method called bindPreferenceSummaryToValue()
              */
-            Preference order = findPreference(getString(R.string.settings_order_key));
+            Preference order = findPreference(getString(R.string.settings_order_by_key));
             bindPreferenceSummaryToValue(order);
 
         }

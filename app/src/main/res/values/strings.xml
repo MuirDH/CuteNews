@@ -20,7 +20,7 @@
     <string name="settings_order_label">Order By</string>
     <string name="settings_order_key" translatable="false">@string/settings_order_by_most_recent_value</string>
     <string name="settings_order_default" translatable="false">@string/settings_order_by_relevance_value</string>
-    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_key" translatable="false">order-by</string>
 
     <!-- Label for order-by newest option [CHAR LIMIT=20] -->
     <string name="settings_order_by_relevance_label">Relevance</string>
@@ -31,7 +31,6 @@
     <string name="settings_order_by_most_recent_value" translatable="false">newest</string>
 
     <string name="no_articles_found">No News Articles found.</string>
-
 
 
 </resources>
