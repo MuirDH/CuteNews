@@ -173,14 +173,16 @@ public final class QueryUtils {
                                     JSONObject nameObject = authorsArray.getJSONObject(j);
                                     if (nameObject.has("firstName")) {
                                         firstName = nameObject.getString("firstName");
-                                        firstName = letterCapital(firstName);
                                     } else
                                         firstName = "";
                                     if (nameObject.has("lastName"))
                                         lastName = nameObject.getString("lastName");
                                     else
                                         lastName = "";
+
                                     author = firstName + " " + lastName;
+                                    author = WordsCapitalizer.capitalizeEveryWord(author);
+
                                 }
                             else
                                 author = "Unknown Author";
@@ -209,11 +211,6 @@ public final class QueryUtils {
             Log.e("QueryUtils", "Problem parsing the news JSON results", e);
         }
         return newses;
-    }
-
-    private static String letterCapital(String input) {
-        String output = input.substring(0, 1).toUpperCase() + input.substring(1);
-        return output;
     }
 
     public static List<News> fetchNewsData(String requestUrl) {
