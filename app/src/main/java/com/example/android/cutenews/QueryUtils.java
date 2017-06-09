@@ -143,6 +143,8 @@ public final class QueryUtils {
                         String webDate;
                         if (currentNews.has("webPublicationDate")){
                             webDate = currentNews.getString("webPublicationDate");
+                            String[] separatedWebDate = webDate.split("T");
+                            webDate = separatedWebDate[0];
                         }else
                             webDate = "No publication date";
 
