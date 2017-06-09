@@ -34,21 +34,22 @@ public final class QueryUtils {
      * This class is only meant to hold static variables and methods which can be accessed directly
      * from the class name QueryUtils.
      */
-    private QueryUtils(){}
+    private QueryUtils() {
+    }
 
     // Returns new URL object from the given string URL
-    private static URL createUrl(String stringUrl){
+    private static URL createUrl(String stringUrl) {
         URL url = null;
-        try{
+        try {
             url = new URL(stringUrl);
-        }catch (MalformedURLException e){
+        } catch (MalformedURLException e) {
             Log.e(LOG_TAG, "Problem building the URL ", e);
         }
         return url;
     }
 
     // Make an HTTP request to the given URL and return a String as the response
-    private static String makeHttpRequest (URL url) throws IOException {
+    private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
         // If the URL is null, then return early.
@@ -68,15 +69,15 @@ public final class QueryUtils {
              * If the request was successful (response code 200), then read the input stream and
              * parse the response.
              */
-            if (urlConnection.getResponseCode() == 200){
+            if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
-            }else
+            } else
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
-        }catch (IOException e){
+        } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the news JSON results.", e);
-        }finally {
-            if (urlConnection != null){
+        } finally {
+            if (urlConnection != null) {
                 urlConnection.disconnect();
             }
             if (inputStream != null)
@@ -89,19 +90,20 @@ public final class QueryUtils {
     /**
      * Convert the {@link InputStream} into a String which contains the whole JSON response from
      * the server.
+     *
      * @param inputStream is the JSON response
      * @return output.toString()
      * @throws IOException if there are problems retrieving the JSON results
      */
     @NonNull
-    private static String readFromStream(InputStream inputStream) throws  IOException{
+    private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
-        if (inputStream != null){
+        if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream,
                     Charset.forName("UTF-8"));
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
-            while (line != null){
+            while (line != null) {
                 output.append(line);
                 line = reader.readLine();
             }
@@ -112,6 +114,7 @@ public final class QueryUtils {
     /**
      * Return a list of {@link News} object that have been built up from parsing the given JSON
      * response
+     *
      * @param newsJSON is the given JSON
      * @return newses
      */
@@ -127,73 +130,74 @@ public final class QueryUtils {
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(newsJSON);
 
-            if (baseJsonResponse.has("response")){
+            if (baseJsonResponse.has("response")) {
                 JSONObject responseObj = baseJsonResponse.getJSONObject("response");
-                if (responseObj.has("results")){
+                if (responseObj.has("results")) {
                     JSONArray newsArray = responseObj.getJSONArray("results");
-                    for (int i = 0; i < newsArray.length(); i++){
+                    for (int i = 0; i < newsArray.length(); i++) {
                         JSONObject currentNews = newsArray.getJSONObject(i);
 
                         String sectionName;
-                        if (currentNews.has("sectionName")){
+                        if (currentNews.has("sectionName")) {
                             sectionName = currentNews.getString("sectionName");
-                        }else
+                        } else
                             sectionName = "No section name";
 
                         String webDate;
-                        if (currentNews.has("webPublicationDate")){
+                        if (currentNews.has("webPublicationDate")) {
                             webDate = currentNews.getString("webPublicationDate");
                             String[] separatedWebDate = webDate.split("T");
                             webDate = separatedWebDate[0];
-                        }else
+                        } else
                             webDate = "No publication date";
 
                         String webTitle;
-                        if (currentNews.has("webTitle")){
+                        if (currentNews.has("webTitle")) {
                             webTitle = currentNews.getString("webTitle");
-                        }else
+                        } else
                             webTitle = "No title";
 
                         String webUrl;
-                        if (currentNews.has("webUrl")){
+                        if (currentNews.has("webUrl")) {
                             webUrl = currentNews.getString("webUrl");
-                        }else
+                        } else
                             webUrl = "No news link";
 
                         JSONArray authorsArray;
                         String author = "";
-                        String firstName, secondName;
-                        if (currentNews.has("tags")){
+                        String firstName, lastName;
+                        if (currentNews.has("tags")) {
                             authorsArray = currentNews.getJSONArray("tags");
                             if (authorsArray.length() != 0)
-                                for (int j = 0; j < authorsArray.length(); j++){
+                                for (int j = 0; j < authorsArray.length(); j++) {
                                     JSONObject nameObject = authorsArray.getJSONObject(j);
-                                    if (nameObject.has("firstName"))
+                                    if (nameObject.has("firstName")) {
                                         firstName = nameObject.getString("firstName");
-                                    else
+                                        firstName = letterCapital(firstName);
+                                    } else
                                         firstName = "";
-                                    if (nameObject.has("secondName"))
-                                        secondName = nameObject.getString("secondName");
+                                    if (nameObject.has("lastName"))
+                                        lastName = nameObject.getString("lastName");
                                     else
-                                        secondName = "";
-                                    author = firstName + " " + secondName;
+                                        lastName = "";
+                                    author = firstName + " " + lastName;
                                 }
-                                else
-                                    author = "Unknown Author";
-                        }else {
+                            else
+                                author = "Unknown Author";
+                        } else
                             author = "Unknown Author";
-                        }
+
 
                         // Extract the value for the key called "imgUrl"
                         JSONObject imageLinks;
                         String imgUrl;
-                        if (currentNews.has("fields")){
+                        if (currentNews.has("fields")) {
                             imageLinks = currentNews.getJSONObject("fields");
                             if (imageLinks.has("thumbnail"))
                                 imgUrl = imageLinks.getString("thumbnail");
                             else
                                 imgUrl = "No image";
-                        }else
+                        } else
                             imgUrl = "No image";
 
                         News news = new News(imgUrl, webTitle, author, sectionName, webDate, webUrl);
@@ -201,13 +205,18 @@ public final class QueryUtils {
                     }
                 }
             }
-        } catch (JSONException e){
+        } catch (JSONException e) {
             Log.e("QueryUtils", "Problem parsing the news JSON results", e);
         }
         return newses;
     }
 
-    public static List<News> fetchNewsData(String requestUrl){
+    private static String letterCapital(String input) {
+        String output = input.substring(0, 1).toUpperCase() + input.substring(1);
+        return output;
+    }
+
+    public static List<News> fetchNewsData(String requestUrl) {
         // Create URL Object
         URL url = createUrl(requestUrl);
 
@@ -215,7 +224,7 @@ public final class QueryUtils {
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
-        }catch (IOException e){
+        } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
