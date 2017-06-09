@@ -12,19 +12,19 @@ import android.support.v7.app.AppCompatActivity;
  * CuteNews Created by Muir on 08/06/2017.
  */
 
-public class SettingsActivity extends AppCompatActivity{
+public class SettingsActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
     }
 
     public static class NewsPreferenceFragment extends PreferenceFragment
-            implements Preference.OnPreferenceChangeListener{
+            implements Preference.OnPreferenceChangeListener {
 
         @Override
-        public void onCreate(Bundle savedInstanceState){
+        public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.settings_main);
 
@@ -45,7 +45,7 @@ public class SettingsActivity extends AppCompatActivity{
          *
          * @param preference is the user's preferred value setting
          */
-        private void bindPreferenceSummaryToValue (Preference preference) {
+        private void bindPreferenceSummaryToValue(Preference preference) {
 
             preference.setOnPreferenceChangeListener(this);
 
@@ -59,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity{
         }
 
         @Override
-        public boolean onPreferenceChange(Preference preference, Object value){
+        public boolean onPreferenceChange(Preference preference, Object value) {
 
             String stringValue = value.toString();
 
@@ -68,15 +68,15 @@ public class SettingsActivity extends AppCompatActivity{
              * ListPreference (using the label instead of the key).
              */
 
-            if (preference instanceof ListPreference){
+            if (preference instanceof ListPreference) {
                 ListPreference listPreference = (ListPreference) preference;
                 int prefIndex = listPreference.findIndexOfValue(stringValue);
 
-                if (prefIndex >=0){
+                if (prefIndex >= 0) {
                     CharSequence[] labels = listPreference.getEntries();
                     preference.setSummary(labels[prefIndex]);
                 }
-            }else
+            } else
                 preference.setSummary(stringValue);
 
             return true;

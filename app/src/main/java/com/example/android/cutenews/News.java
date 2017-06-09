@@ -4,7 +4,7 @@ package com.example.android.cutenews;
  * CuteNews Created by Muir on 08/06/2017.
  */
 
-public class News {
+class News {
 
     // thumbnail image associated with the article
     private String Image;
@@ -33,7 +33,7 @@ public class News {
      * @param date is when it was first issued
      * @param url is the website URL to find more details about the article
      */
-    public News(String image, String title, String author, String section, String date, String url){
+    News(String image, String title, String author, String section, String date, String url){
         Image = image;
         Title = title;
         Author = author;
@@ -44,27 +44,27 @@ public class News {
 
     // Getter methods to return the image, title, author, section, date, and url of the article
 
-    public String getImage(){
+    String getImage(){
         return Image;
     }
 
-    public String getTitle(){
+    String getTitle(){
         return Title;
     }
 
-    public String getAuthor(){
+    String getAuthor(){
         return Author;
     }
 
-    public String getSection(){
+    String getSection(){
         return Section;
     }
 
-    public String getDate(){
+    String getDate(){
         return Date;
     }
 
-    public String getUrl() {
+    String getUrl() {
         return Url;
     }
 }

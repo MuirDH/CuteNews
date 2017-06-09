@@ -16,19 +16,19 @@ import java.util.List;
  * CuteNews Created by Muir on 08/06/2017.
  */
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private ArrayList<News> News;
     private static OnItemClickListener Listener;
     private MainActivity Context;
 
-    public NewsAdapter(MainActivity context, ArrayList<News> news, OnItemClickListener listener) {
+    NewsAdapter(MainActivity context, ArrayList<News> news, OnItemClickListener listener) {
         Context = context;
         News = news;
         Listener = listener;
     }
 
-    public interface OnItemClickListener{
+    interface OnItemClickListener {
         void onItemClick(News news);
     }
 
@@ -52,7 +52,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         //Picasso Library to convert the url from JSONObject imageLinks to an image(@thumbnail)
         Picasso.with(Context).load(news.getImage()).placeholder(R.mipmap.ic_launcher).into(holder.newsImageView);
 
-        holder.bind(News.get(position), (OnItemClickListener) Listener);
+        holder.bind(News.get(position), Listener);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         return News.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView newsImageView;
         TextView newsTitleTextView;
@@ -69,33 +69,33 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         TextView newsSectionTextView;
 
 
-    public ViewHolder(View itemView) {
-        super(itemView);
+        ViewHolder(View itemView) {
+            super(itemView);
 
-        newsImageView = (ImageView) itemView.findViewById(R.id.news_image);
-        newsTitleTextView = (TextView) itemView.findViewById(R.id.news_title);
-        newsAuthorTextView = (TextView) itemView.findViewById(R.id.news_author);
-        newsDateTextView = (TextView) itemView.findViewById(R.id.news_date);
-        newsSectionTextView = (TextView) itemView.findViewById(R.id.news_section);
+            newsImageView = (ImageView) itemView.findViewById(R.id.news_image);
+            newsTitleTextView = (TextView) itemView.findViewById(R.id.news_title);
+            newsAuthorTextView = (TextView) itemView.findViewById(R.id.news_author);
+            newsDateTextView = (TextView) itemView.findViewById(R.id.news_date);
+            newsSectionTextView = (TextView) itemView.findViewById(R.id.news_section);
+        }
+
+        void bind(final News news, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(news);
+                }
+            });
+        }
+
     }
 
-    public void bind(final News news, final OnItemClickListener listener) {
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onItemClick(news);
-            }
-        });
-    }
-
-}
-
-    public void clear() {
+    void clear() {
         News.clear();
         notifyDataSetChanged();
     }
 
-    public void addAll(List<News> news) {
+    void addAll(List<News> news) {
         News.addAll(news);
         notifyDataSetChanged();
     }

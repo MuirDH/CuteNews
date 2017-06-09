@@ -1,6 +1,6 @@
 package com.example.android.cutenews;
 
-/**
+/*
  * CuteNews Created by Muir on 09/06/2017.
  * WordsCapitalizer class created by Andrea Ligios(http://ideone.com/Jdzbaf), used with permission
  */
@@ -9,9 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class WordsCapitalizer {
+class WordsCapitalizer {
 
-    public static String capitalizeEveryWord(String source) {
+    static String capitalizeEveryWord(String source) {
         return capitalizeEveryWord(source,null,null);
     }
 
@@ -19,7 +19,7 @@ public class WordsCapitalizer {
         return capitalizeEveryWord(source,null,locale);
     }
 
-    public static String capitalizeEveryWord(String source, List<Delimiter> delimiters, Locale locale) {
+    private static String capitalizeEveryWord(String source, List<Delimiter> delimiters, Locale locale) {
         char[] chars;
 
         if (delimiters == null || delimiters.size() == 0)
@@ -69,44 +69,44 @@ public class WordsCapitalizer {
 
     private static List<Delimiter> getDefaultDelimiters(){
         // If no delimiter specified, "Capitalize after space" rule is set by default.
-        List<Delimiter> delimiters = new ArrayList<Delimiter>();
+        List<Delimiter> delimiters = new ArrayList<>();
         delimiters.add(new Delimiter(Behavior.CAPITALIZE_AFTER_MARKER, ' '));
         return delimiters;
     }
 
-    public static class Delimiter {
+    private static class Delimiter {
         private Behavior behavior;
         private char delimiter;
 
-        public Delimiter(Behavior behavior, char delimiter) {
+        Delimiter(Behavior behavior, char delimiter) {
             super();
             this.behavior = behavior;
             this.delimiter = delimiter;
         }
 
-        public boolean capitalizeBefore(){
+        boolean capitalizeBefore(){
             return (behavior.equals(Behavior.CAPITALIZE_BEFORE_MARKER)
                     || behavior.equals(Behavior.CAPITALIZE_BEFORE_AND_AFTER_MARKER));
         }
 
-        public boolean capitalizeAfter(){
+        boolean capitalizeAfter(){
             return (behavior.equals(Behavior.CAPITALIZE_AFTER_MARKER)
                     || behavior.equals(Behavior.CAPITALIZE_BEFORE_AND_AFTER_MARKER));
         }
 
-        public char getDelimiter() {
+        char getDelimiter() {
             return delimiter;
         }
     }
 
-    public static enum Behavior {
+    private enum Behavior {
         CAPITALIZE_AFTER_MARKER(0),
         CAPITALIZE_BEFORE_MARKER(1),
         CAPITALIZE_BEFORE_AND_AFTER_MARKER(2);
 
         private int value;
 
-        private Behavior(int value) {
+        Behavior(int value) {
             this.value = value;
         }
 

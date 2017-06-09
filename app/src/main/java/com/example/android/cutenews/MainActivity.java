@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity
 
     private RecyclerView RecyclerView;
 
-    private RecyclerView.LayoutManager LayoutManager;
-
     SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
@@ -78,9 +76,9 @@ public class MainActivity extends AppCompatActivity
         RecyclerView = (RecyclerView) findViewById(R.id.list_view);
         RecyclerView.setHasFixedSize(true);
 
-        LayoutManager = new LinearLayoutManager(this);
+        android.support.v7.widget.RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
 
-        RecyclerView.setLayoutManager(LayoutManager);
+        RecyclerView.setLayoutManager(layoutManager);
 
         RecyclerView.LayoutManager LayoutManager = new LinearLayoutManager(this);
         RecyclerView.setLayoutManager(LayoutManager);
@@ -90,13 +88,13 @@ public class MainActivity extends AppCompatActivity
         LoadingProgressSpinner = (ProgressBar) findViewById(R.id.loading_spinner);
 
         // Create a new adapter that takes an empty list of news items as input
-        Adapter = new NewsAdapter(this, new ArrayList<News>(), new NewsAdapter.OnItemClickListener(){
+        Adapter = new NewsAdapter(this, new ArrayList<News>(), new NewsAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(News news){
+            public void onItemClick(News news) {
                 String url = news.getUrl();
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setData(Uri.parse(url));
-            startActivity(intent);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
             }
         });
 
@@ -104,7 +102,7 @@ public class MainActivity extends AppCompatActivity
 
         // Get a reference to the ConnectivityManager to check state of network connectivity
         final ConnectivityManager connectivityManager =
-                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         // Get details on the currently active default data network
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
@@ -121,7 +119,7 @@ public class MainActivity extends AppCompatActivity
              */
             loaderManager.initLoader(NEWS_LOADER_ID, null, this);
 
-        }else {
+        } else {
 
             // Otherwise, display error. Hide loading indicator so error message will be visible.
             LoadingProgressSpinner.setVisibility(View.GONE);
@@ -135,13 +133,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.actions_settings) {
@@ -154,7 +152,7 @@ public class MainActivity extends AppCompatActivity
 
     // Create a new loader for the given URL
     @Override
-    public Loader<List<News>> onCreateLoader(int i, Bundle bundle){
+    public Loader<List<News>> onCreateLoader(int i, Bundle bundle) {
 
         Log.i(LOG_TAG, "TEST: onCreateLoader() called...");
 
@@ -205,12 +203,12 @@ public class MainActivity extends AppCompatActivity
         if (news != null && !news.isEmpty()) {
             RecyclerView.setVisibility(View.VISIBLE);
             Adapter.addAll(news);
-        }else
+        } else
             EmptyStateTextView.setText(R.string.no_articles_found);
     }
 
     @Override
-    public void onLoaderReset(Loader<List<News>> loader){
+    public void onLoaderReset(Loader<List<News>> loader) {
 
         Log.i(LOG_TAG, "TEST: onLoaderReset() called...");
 
@@ -219,7 +217,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRefresh(){
+    public void onRefresh() {
         getLoaderManager().restartLoader(NEWS_LOADER_ID, null, this);
     }
 

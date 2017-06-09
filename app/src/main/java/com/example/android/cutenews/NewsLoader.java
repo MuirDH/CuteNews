@@ -10,7 +10,7 @@ import java.util.List;
  * CuteNews Created by Muir on 08/06/2017.
  */
 
-public class NewsLoader extends AsyncTaskLoader<List<News>> {
+class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     // Tag for log messages
     private static final String LOG_TAG = NewsLoader.class.getName();
@@ -20,16 +20,17 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     /**
      * Constructs a new {@link NewsLoader}.
+     *
      * @param context of the activity
-     * @param url to load data from
+     * @param url     to load data from
      */
-    public NewsLoader(Context context, String url){
+    NewsLoader(Context context, String url) {
         super(context);
         Url = url;
     }
 
     @Override
-    protected void onStartLoading(){
+    protected void onStartLoading() {
         Log.i(LOG_TAG, "TEST: onStartLoading() called...");
 
         forceLoad();
@@ -37,7 +38,7 @@ public class NewsLoader extends AsyncTaskLoader<List<News>> {
 
     // This is on a background thread
     @Override
-    public List<News> loadInBackground(){
+    public List<News> loadInBackground() {
         Log.i(LOG_TAG, "TEST: loadInBackground() called...");
 
         if (Url == null)

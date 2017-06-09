@@ -24,10 +24,10 @@ import java.util.List;
  * CuteNews Created by Muir on 08/06/2017.
  */
 
-public final class QueryUtils {
+final class QueryUtils {
 
     // Tag for the log messages
-    public static final String LOG_TAG = QueryUtils.class.getSimpleName();
+    static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
     /*
      * Create a private constructor because no one should ever create a {@link QueryUtils} object.
@@ -213,7 +213,7 @@ public final class QueryUtils {
         return newses;
     }
 
-    public static List<News> fetchNewsData(String requestUrl) {
+    static List<News> fetchNewsData(String requestUrl) {
         // Create URL Object
         URL url = createUrl(requestUrl);
 
